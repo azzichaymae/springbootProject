@@ -25,7 +25,6 @@ const CreateProduct = () => {
         validateStatus: (status) => status >= 200 && status < 500,
     })
     .then((response) => {
-      // if server responded with HTML (e.g. index.html) the endpoint wasn't reached
       const contentType = response.headers && response.headers["content-type"];
       if (contentType && contentType.includes("text/html")) {
         console.error("Received HTML instead of JSON from categories endpoint", response);

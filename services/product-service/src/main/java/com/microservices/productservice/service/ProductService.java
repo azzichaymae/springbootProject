@@ -1,5 +1,6 @@
 package com.microservices.productservice.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,6 @@ public class ProductService {
           if (productRepository.existsBySku(request.getSku())) {
                throw new IllegalArgumentException("Product already exists with SKU: " + request.getSku());
           }
-
           Product product = Product.builder()
                     .name(request.getName())
                     .description(request.getDescription())
@@ -40,6 +40,7 @@ public class ProductService {
                     .active(true)
                     .build();
 
+          
           Product savedProduct = productRepository.save(product);
           log.info("Product created successfully with id: {}", savedProduct.getId());
 
@@ -84,6 +85,7 @@ public class ProductService {
           product.setPrice(request.getPrice());
           product.setStockQuantity(request.getStockQuantity());
           product.setCategory(request.getCategory());
+          product.setUpdatedAt(LocalDateTime.now());
 
           Product updatedProduct = productRepository.save(product);
           log.info("Product updated successfully with id: {}", updatedProduct.getId());

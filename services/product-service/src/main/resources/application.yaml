@@ -7,6 +7,12 @@ spring:
     config:
       enabled: true
       fail-fast: false
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   web:
     cors:
       enabled: false

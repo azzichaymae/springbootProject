@@ -64,7 +64,6 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    // GENERIC PATH VARIABLES GO LAST
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
         ProductDto product = productService.getProduct(id);

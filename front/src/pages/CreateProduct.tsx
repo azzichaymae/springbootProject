@@ -78,7 +78,20 @@ const CreateProduct = () => {
     }
 
     try {
-    await axios.post("/api/products", form);
+    await axios.post("http://localhost:8080/api/products",{
+      name: form.name,
+      description: form.description,
+      price: form.price,
+      stockQuantity: form.stockQuantity,
+      sku: form.sku,
+      category: form.category,
+      active: form.active,
+      
+    },{
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
       alert("Product created successfully!");
       navigate("/products");
     } catch (err) {

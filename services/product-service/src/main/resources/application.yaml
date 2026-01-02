@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: product-service
+  config:
+    import: optional:configserver:http://config-server:8888
+  cloud:
+    config:
+      enabled: true
+      fail-fast: false
+  web:
+    cors:
+      enabled: false
+  security:
+    enabled: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://service-discovery:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+
+management:
+  endpoints:
+    web:
+      cors:
+        allowed-origins:
+          - http://localhost:8084
+          - http://localhost:5173

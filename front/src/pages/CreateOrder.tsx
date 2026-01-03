@@ -46,14 +46,15 @@ const CreateOrder = () => {
       setLoading(false);
     });
 
-    console.log(users)
+    
   }, []);
   useEffect(() => {
     const newTotal = orderItems.reduce((sum, item) => {
       return sum + (item.price * item.quantity);
     }, 0);
     setTotal(newTotal);
-  }, []);
+    console.log("Total updated:", newTotal);
+  }, [orderItems]);
 
   const addOrderItem = () => {
     setOrderItems([
@@ -62,7 +63,7 @@ const CreateOrder = () => {
     ]);
     calculateTotal();
   };
-
+console.log(products)
   const removeOrderItem = (id: string) => {
     if (orderItems.length > 1) {
       setOrderItems(orderItems.filter(item => item.id !== id));
@@ -75,14 +76,14 @@ const CreateOrder = () => {
         const updated = { ...item, [field]: value };
         
         if (field === "productId") {
-          const product = products.find(p => p.id === value);
+          const product = products.find(p => p.id === Number(value));
+          console.log("Selected product:", product);
           if (product) {
             updated.price = product.price;
           }
         }
-        
+ 
         return updated;
-        
       }
       return item;
     }));

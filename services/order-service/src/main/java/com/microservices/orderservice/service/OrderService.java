@@ -78,15 +78,12 @@ public class OrderService {
         Order savedOrder = orderRepository.save(order);
         log.info("Order created with id: {}", savedOrder.getId());
         
-        // Update stock for each product
         for (OrderItem item : orderItems) {
             ProductDto product = productServiceClient.getProductById(item.getProductId());
             Integer newStock = product.getStockQuantity() - item.getQuantity();
             productServiceClient.updateProductStock(item.getProductId(), newStock);
-            log.info("Updated stock for product id: {} to {}", item.getProductId(), newStock);
         }
         
-        // Publish order created event
         OrderCreatedEvent event = OrderCreatedEvent.builder()
             .orderId(savedOrder.getId())
             .userId(savedOrder.getUserId())

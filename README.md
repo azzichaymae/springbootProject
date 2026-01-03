@@ -7,9 +7,32 @@ Product Service: Handles product catalog, inventory, and pricing
 Order Service: Processes orders, payments, and order history
 API Gateway: Central entry point routing requests to appropriate services
 Each service is independently deployable and connects to its own PostgreSQL database, ensuring data isolation and service autonomy. All services are only accessible through the API Gateway at localhost:8080/api/{service-name}.
-
-    <img width="432" height="578" alt="image" src="https://github.com/user-attachments/assets/d2ab3d2c-1a5b-46fe-9807-e3676b18e572" />
-
+## 🏗️ Architecture Diagram
+```
+┌─────────────────────────────────────────────────┐
+│                 React Frontend                  │
+│              (http://localhost:8084)            │
+└──────────────────────┬──────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────┐
+│               API Gateway (8080)                │
+│    ┌──────────┬───────────┬──────────┐          │
+│    │ /api/    │ /api/     │ /api/    │          │
+│    │ users    │ products  │ orders   │          │
+│    └─────┬────┴─────┬─────┴────┬─────┘          │
+└──────────┼──────────┼──────────┼────────────────┘
+           │          │          │
+    ┌──────▼────┐┌────▼─────┐┌───▼──────┐
+    │ User      ││ Product  ││ Order    │
+    │ Service   ││ Service  ││ Service  │
+    │ (8081)    ││ (8082)   ││ (8083)   │
+    └─────┬─────┘└────┬─────┘└────┬─────┘
+          │           │           │
+    ┌─────▼─────┐┌────▼─────┐┌────▼─────┐
+    │ Userdb    ││Productdb ││ Orderdb  │
+    │ (Postgres)││(Postgres)││(Postgres)│
+    └───────────┘└──────────┘└──────────┘
+```
 2--Containerization & DevOps
 The entire backend is fully containerized using Docker, with each service running in isolated containers. I've created four automated bash scripts to streamline development:
 Build Script: Compiles and builds Docker images for all services
